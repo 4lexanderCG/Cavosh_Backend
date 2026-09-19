@@ -20,4 +20,17 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             @Param("p_email") String email,
             @Param("p_telefono") String telefono,
             @Param("p_password") String password);
+
+    // Llamada a sp_recuperar_password
+    @Procedure(procedureName = "sp_recuperar_password")
+    void spRecuperarPassword(
+            @Param("p_email") String email,
+            @Param("p_nuevo_password") String nuevoPassword);
+
+    // Llamada a sp_actualizar_perfil
+    @Procedure(procedureName = "sp_actualizar_perfil")
+    void spActualizarPerfil(
+            @Param("p_usuario_id") Long usuarioId,
+            @Param("p_nombre") String nombre,
+            @Param("p_telefono") String telefono);
 }
