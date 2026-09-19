@@ -2,6 +2,7 @@ package com.cavoshcafe.api.service;
 
 import com.cavoshcafe.api.dto.AuthResponse;
 import com.cavoshcafe.api.dto.LoginRequest;
+import com.cavoshcafe.api.dto.RecuperarPasswordRequest;
 import com.cavoshcafe.api.dto.RegisterRequest;
 import com.cavoshcafe.api.model.Usuario;
 import com.cavoshcafe.api.repository.UsuarioRepository;
@@ -69,5 +70,15 @@ public class AuthService {
                 .email(usuario.getEmail())
                 .rol(usuario.getRol().getNombre())
                 .build();
+    }
+
+    @Transactional
+    public void recuperarPassword(RecuperarPasswordRequest request) {
+        if (!usuarioRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("No existe una cuenta registrada con este correo electrónico");
+        }
+
+        String passwordCifrada = passwordEncoder.encode(request.getNuevoPassword());
+        usuarioRepository.spRecuperarPassword(request.getEmail(), passwordCifrada);
     }
 }

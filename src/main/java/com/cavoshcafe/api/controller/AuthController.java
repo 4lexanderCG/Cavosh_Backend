@@ -2,12 +2,15 @@ package com.cavoshcafe.api.controller;
 
 import com.cavoshcafe.api.dto.AuthResponse;
 import com.cavoshcafe.api.dto.LoginRequest;
+import com.cavoshcafe.api.dto.RecuperarPasswordRequest;
 import com.cavoshcafe.api.dto.RegisterRequest;
 import com.cavoshcafe.api.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,5 +28,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/recuperar-password")
+    public ResponseEntity<Map<String, String>> recuperarPassword(@Valid @RequestBody RecuperarPasswordRequest request) {
+        authService.recuperarPassword(request);
+        return ResponseEntity.ok(Map.of("mensaje", "Contraseña actualizada con éxito"));
     }
 }
